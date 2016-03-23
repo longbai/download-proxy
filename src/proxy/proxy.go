@@ -7,7 +7,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"strings"
 )
 
 type Config struct {
@@ -52,8 +51,9 @@ func (s *Service) handle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	h := w.Header()
 	for k, v := range resp.Header {
-		w.Header().Set(k, strings.Join(v, ";"))
+		h[k] = v
 	}
 
 	w.WriteHeader(resp.StatusCode)
